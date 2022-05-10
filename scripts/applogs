@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# Se abren los logs y se dejan ejecutando
+docker exec -d desaapp /bin/bash -c ''

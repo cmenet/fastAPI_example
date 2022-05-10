@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Se levanta el entorno
+echo "Creando entorno..."
+
+# Desatachado
+# docker-compose -f ../entorno/docker-compose.yml up -d 
+
+# Rebuild backend image
+#docker-compose -f ../entorno/docker-compose.yml up --no-deps --build backend
+
+#Limpio
+docker-compose -f ../entorno/docker-compose.yml up
+
+

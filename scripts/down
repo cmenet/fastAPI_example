@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# Se exorta el dump
+#docker exec -d desadb /bin/bash -c 'mysqldump desa -uroot -pdesa  > /dump/dump.sql'
+
+# Se baja el entorno
+echo "Dump Mysql generado ... OK"
+docker-compose -f ../entorno/docker-compose.yml down
