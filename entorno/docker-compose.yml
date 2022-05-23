@@ -2,33 +2,60 @@ version: '3.8'
 
 services:
 
-  db:
-    image: mysql
-    container_name: desadb
-    command: --default-authentication-plugin=mysql_native_password
+  desadb:
+    image: postgres
     restart: always
+    environment: 
+      - DATABASE_HOST=127.0.0.1
+      - POSTGRES_USER=desa
+      - POSTGRES_PASSWORD=desa
+      - POSTGRES_DB=desa
+    ports: 
+      - 5432:5432
     volumes:
-      - ../database/mysql/dump:/dump
-    environment:
-      MYSQL_ROOT_PASSWORD: desa
-      MYSQL_USER: desa
-      MYSQL_PASSWORD: desa
-      MYSQL_DATABASE: desa
-    healthcheck:
-      test: ["CMD", "phpmyadmin" ,"ping", "-h", "localhost"]
-      timeout: 5s
-      retries: 10
-
-  phpmyadmin:
-    image: phpmyadmin
-    container_name: desaphpmyadmin
+      - ../database/desa:/bitnami/postgresql
+  
+  keycloakdb:
+    image: postgres
     restart: always
+    environment: 
+      - DATABASE_HOST=127.0.0.1
+      - POSTGRES_USER=keycloak
+      - POSTGRES_PASSWORD=keycloak
+      - POSTGRES_DB=keycloak
+    ports: 
+      - 5433:5432
+    volumes:
+      - ../database/keycloak:/bitnami/postgresql
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment: 
+      PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
+      PGADMIN_DEFAULT_PASSWORD: "desa"
     ports:
-      - 8080:80
+      - "8080:80"
+    depends_on: 
+      - desadb
+      - keycloakdb
+
+  keycloak:
+    image: docker.io/bitnami/keycloak:12-debian-10
+    ports:
+      - "8081:8080"
     environment:
-      PMA_HOSTS: db
-      PMA_USER: root
-      PMA_PASSWORD: desa
+      - KEYCLOAK_CREATE_ADMIN_USER=true
+      - KEYCLOAK_ADMIN_USER=user
+      - KEYCLOAK_ADMIN_PASSWORD=user
+      - KEYCLOAK_DATABASE_HOST=keycloakdb
+      - KEYCLOAK_DATABASE_PORT=5432
+      - KEYCLOAK_DATABASE_NAME=keycloak
+      - KEYCLOAK_DATABASE_USER=keycloak
+      - KEYCLOAK_DATABASE_PASSWORD=desa
+    depends_on:
+      - keycloakdb
+    volumes:
+      - ./mynewtheme:/opt/bitnami/keycloak/themes/mynewtheme
 
   backend:
     build:
@@ -39,7 +66,7 @@ services:
     ports:
       - 5000:5000
     depends_on:
-      - db
+      - desadb
     volumes:
       - ../backend/:/code
 
