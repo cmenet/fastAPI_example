@@ -10,8 +10,6 @@ services:
       - POSTGRES_USER=desa
       - POSTGRES_PASSWORD=desa
       - POSTGRES_DB=desa
-    volumes:
-      - ../database/desa:/bitnami/postgresql
   
   keycloakdb:
     image: postgres
@@ -21,8 +19,6 @@ services:
       - POSTGRES_USER=keycloak
       - POSTGRES_PASSWORD=keycloak
       - POSTGRES_DB=keycloak
-    volumes:
-      - ../database/keycloak:/bitnami/postgresql
 
   pgadmin:
     image: dpage/pgadmin4
@@ -34,6 +30,10 @@ services:
     depends_on: 
       - desadb
       - keycloakdb
+    volumes:
+      - ../entorno/pgadmin/servers.json:/pgadmin4/servers.json
+      - ../entorno/pgadmin/pgpassdesa:/pgadmin4/pgpassdesa
+      - ../entorno/pgadmin/pgpasskeycloak:/pgadmin4/pgpasskeycloak
 
   keycloak:
     image: docker.io/bitnami/keycloak:12-debian-10
@@ -49,12 +49,12 @@ services:
     depends_on:
       - keycloakdb
     volumes:
-      - ./mynewtheme:/opt/bitnami/keycloak/themes/mynewtheme
+      - ../entorno/keycloak/mynewtheme:/opt/bitnami/keycloak/themes/mynewtheme
 
   backend:
     build:
       context: .
-      dockerfile: dev.Dockerfile
+      dockerfile: ./backend/dev.Dockerfile
     container_name: desaapp
     command: uvicorn app.main:app --host 0.0.0.0 --port 5000 --reload
     ports:

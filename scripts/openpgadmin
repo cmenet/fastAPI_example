@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# Opens pgadmin terminal
+docker exec -it entorno_pgadmin_1 /bin/sh
