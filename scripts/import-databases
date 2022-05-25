@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# Se importa los dumps
+cat ../database/desa/dump.sql | docker exec -i desadb psql -U myuser
+cat ../database/keycloak/dump.sql | docker exec -i keycloakdb psql -U myuser

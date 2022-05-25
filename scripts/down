@@ -1,8 +1,9 @@
 #!/bin/bash
 
-# Se exorta el dump
+# Se exorta los dumps
 #docker exec -d desadb /bin/bash -c 'mysqldump desa -uroot -pdesa  > /dump/dump.sql'
+#docker exec -t desadb pg_dumpall -c -U postgres > ../database/desa/dump.sql
+#docker exec -t keycloakdb pg_dumpall -c -U postgres > ../database/keycloak/dump.sql
 
 # Se baja el entorno
-echo "Dump Mysql generado ... OK"
 docker-compose -f ../entorno/docker-compose.yml down

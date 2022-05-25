@@ -1,0 +1,24 @@
+{
+          "Servers": {
+              "1": {
+                  "Name": "desadb",
+                  "Group": "desa",
+                  "Port": 5432,
+                  "Username": "desa",
+                  "Host": "desadb",
+                  "SSLMode": "prefer",
+                  "PassFile": "/pgpassdesa",
+                  "MaintenanceDB": "desa"
+              },
+              "2": {
+                    "Name": "keycloakdb",
+                    "Group": "desa",
+                    "Port": 5432,
+                    "Username": "keycloak",
+                    "Host": "keycloakdb",
+                    "SSLMode": "prefer",
+                    "PassFile": "/pgpasskeycloak",
+                    "MaintenanceDB": "keycloak"
+                }
+          }
+      }
