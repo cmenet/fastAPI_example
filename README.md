@@ -1,2 +1,2 @@
 # fastAPI_example
-Example proyect fastAPI CRUD with MySQL
+Example proyect fastAPI CRUD with Postgresql
