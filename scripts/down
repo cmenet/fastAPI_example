@@ -6,4 +6,4 @@
 #docker exec -t keycloakdb pg_dumpall -c -U postgres > ../database/keycloak/dump.sql
 
 # Se baja el entorno
-docker-compose -f ../entorno/docker-compose.yml down
+docker compose -f ../entorno/docker-compose.yml down
