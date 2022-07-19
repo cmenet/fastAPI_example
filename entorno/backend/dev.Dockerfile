@@ -5,7 +5,7 @@ FROM python:3.9
 WORKDIR /code
 
 # Copies the requirements archive to the container
-COPY ./requirements.txt /code/requirements.txt
+COPY ./backend/requirements.txt /code/requirements.txt
 
 # Installs the Python requirenmentes
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
